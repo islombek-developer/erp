@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import StudentDashboardView, StudentGroupView, StudentLessonsView, HomeworkView,HomeDetailView,ProfileView,EditProfileView,ResetPasswordView
+from .views import (
+    StudentDashboardView, StudentGroupView, StudentLessonsView, 
+    HomeworkView, HomeDetailView, ProfileView, EditProfileView, 
+    ResetPasswordView
+)
+
 app_name = 'students'
 urlpatterns = [
     path('dashboard/', StudentDashboardView.as_view(), name='dashboard'),

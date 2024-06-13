@@ -72,7 +72,7 @@ class EditProfileView(LoginRequiredMixin, View):
         form = ProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('students/dashboard')
+            return redirect('students:profil')  
         return render(request, 'students/edit.html', {'form': form})
 
 class ResetPasswordView(LoginRequiredMixin,View):
