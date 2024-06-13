@@ -40,13 +40,14 @@ class HomeworkView(StudentRequiredMixin, View):
             homework.student = student
             homework.description = form.cleaned_data['description']
             homework.homework_file = form.cleaned_data['homework_file']
-
             homework.save()
 
             lesson.homework_status = True
             lesson.save()
 
-            return redirect('/')
+            return redirect('students:dashboard')
+        form = HomeworkForm()
+        return render(request, 'students/homework.html', context={"form":form})
         
 class HomeDetailView(StudentRequiredMixin,View):
     def get(self,request,lesson_id):

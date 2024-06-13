@@ -25,4 +25,4 @@ class TeacherRequiredMixin(AccessMixin):
         if not request.user.user_role=='teacher':
             return self.handle_no_permission()
 
-        return super().dispatch(request,*args,**kwargs)
+        return super().dispatch(request, *args, **kwargs)

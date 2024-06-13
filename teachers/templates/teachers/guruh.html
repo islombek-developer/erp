@@ -36,6 +36,10 @@
           <a class="nav-link" href="{% url 'teachers:student' team.id %}">O'quvchilar</a>
         </li>
       </ul>
+      <ul class="nav-item">
+          <a class="btn btn-outline-success" href="{% url 'teachers:create' team.id %}">Create Lesson</a>
+        
+      </ul>
     </div>
 
   </div>
@@ -49,19 +53,19 @@
         <th scope="col">Homework status</th>
       </tr>
     </thead>
-    <tbody >
-        {% for lesson in lessons %}
+    <tbody>
+      {% for lesson in lessons %}
       <tr class="table-info">
-        {% if lesson.title %}
-        <td>{{lesson.title}}</td>
-        {% else %}
-        <td>{{lesson.description}}</td>
-        {% endif %}
-        <td>{{lesson.date}}</td>
-        <td>Active</td>
+          {% if lesson.title %}
+          <td><a href="{% url 'teachers:stydents' lesson.id %}">{{ lesson.title }}</a></td>
+          {% else %}
+          <td>{{ lesson.description }}</td>
+          {% endif %}
+          <td>{{ lesson.date }}</td>
+          <td>Active</td>
       </tr>
       {% endfor %}
-    </tbody>
+  </tbody>
   </table>
 
 {% endblock content %}

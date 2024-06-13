@@ -1,4 +1,4 @@
-{% extends 'students/dashboard.html' %}
+{% extends 'teachers/dashboard.html' %}
 
 {% block content %}
 <div class="container mt-5">
@@ -11,20 +11,17 @@
       </tr>
     </thead>
     <tbody>
-      {% for lesson in lessons %}
-        <tr>
-          <th scope="row">{{ lesson.title }}</th>
-          <td>{{ lesson.date }}</td>
-          <td>
-            {% if lesson.homework_status %}
+      <tr>
+        <th scope="row">{{ lesson.title }}</th>
+        <td>{{ lesson.date }}</td>
+        <td>
+          {% if lesson.homework_status %}
             <a href="{% url 'students:homework_detail' lesson.id %}" class="btn btn-info">Bajarilgan</a>
-              
-            {% else %}
+          {% else %}
             <a href="{% url 'students:homework' lesson.id %}" class="btn btn-danger">Bajarilmagan</a>
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
+          {% endif %}
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

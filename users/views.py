@@ -78,7 +78,7 @@ class EditProfileView(LoginRequiredMixin, View):
         form = ProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('/dashboard')
+            return redirect('/profil')
         return render(request, 'users/edit.html', {'form': form})
         
 class Create(View):

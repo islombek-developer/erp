@@ -3,8 +3,10 @@ from django.shortcuts import render,get_object_or_404,redirect
 from  users.permissionmixin import TeacherRequiredMixin
 from  django.views import  View
 from  users.models import Teacher,Student,User
-from  students.models import Lesson,Team
+from  students.models import Lesson,Team,Homework
 from users.forms import ProfileForm,ResetPasswordForm
+from .forms import CreateLessonForm
+from django.urls import reverse
 
 class TeacherView(TeacherRequiredMixin,View):
     def get(self,request):
@@ -39,6 +41,12 @@ class ProfileView(LoginRequiredMixin,View):
         user = request.user
         return render(request,'teachers/profil.html',context={"user":user})
 
+class TeacherHomevorkStudent(TeacherRequiredMixin,View):
+    def get(self,request,team_id):
+        team = get_object_or_404(Team,id=team_id)
+        lessons = team.lesson.all()
+        return render(request,'teachers/guruh.html',{'team':team,'lessons':lessons})
+
 class EditProfileView(LoginRequiredMixin, View):
     def get(self, request, id):
         user = get_object_or_404(User, id=id)
@@ -68,3 +76,27 @@ class ResetPasswordView(LoginRequiredMixin,View):
             return redirect('/')
         form = ResetPasswordForm()
         return render(request, 'teachers/reset_password.html', {'form':form})
+
+class TeacherCreateLessonView(TeacherRequiredMixin, View):
+    def get(self, request, team_id):
+        form = CreateLessonForm()
+        return render(request, 'teachers/create_lesson.html', context={"form":form})
+    
+    def post(self, request, team_id):
+        team = get_object_or_404(Team, id=team_id)
+        form = CreateLessonForm(request.POST)
+        if form.is_valid():
+            lesson = Lesson()
+            lesson.team = team
+            lesson.title = form.cleaned_data['title']
+            lesson.save()
+            url = reverse('teachers:homeworks', args=[team_id])
+            return redirect(url)
+
+class TeacherStudentLeson(TeacherRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        id = kwargs.get('id')  
+        lesson = get_object_or_404(Lesson, id=id)
+        homeworks = Homework.objects.filter(lesson=lesson)
+        students = [homework.student for homework in homeworks]
+        return render(request, 'teachers/students.html', {'students': students})
